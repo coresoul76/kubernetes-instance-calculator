@@ -131,9 +131,9 @@ function Calculator({ onRemove, podColor }) {
                         <label className="form-label">Pod CPU Limit (m)</label>
                         <input type="number" className="form-control form-control-sm" value={podCpu} onChange={(e) => setPodCpu(parseInt(e.target.value, 10) || 0)} />
                     </div>
-                    <div className="mb-3">
-                        <label className="form-label">Pod Memory Limit (GiB)</label>
-                        <input type="number" className="form-control form-control-sm" value={podMemory} onChange={(e) => setPodMemory(parseInt(e.target.value, 10) || 0)} />
+                    <div class="mb-3">
+                        <label class="form-label">Pod Memory Limit (GiB)</label>
+                        <input type="number" className="form-control form-control-sm" value={podMemory} onChange={(e) => setPodMemory(parseFloat(e.target.value) || 0)} />
                     </div>
                 </div>
                 <div className="col-md-6">
