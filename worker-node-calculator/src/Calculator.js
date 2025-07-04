@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const instanceTypes = {
-  't3.medium': { cpu: 2, memory: 4 },
-  't3.large': { cpu: 2, memory: 8 },
-  't3.xlarge': { cpu: 4, memory: 16 },
-  't3.2xlarge': { cpu: 8, memory: 32 },
-  'm5.large': { cpu: 2, memory: 8 },
-  'm5.xlarge': { cpu: 4, memory: 16 },
-  'm5.2xlarge': { cpu: 8, memory: 32 },
-  'm5.4xlarge': { cpu: 16, memory: 64 },
-  'm5.8xlarge': { cpu: 32, memory: 128 },
-  'm5.12xlarge': { cpu: 48, memory: 192 },
-  'r5.large': { cpu: 2, memory: 16 },
-  'r5.xlarge': { cpu: 4, memory: 32 },
-  'r5.2xlarge': { cpu: 8, memory: 64 },
-  'r5.4xlarge': { cpu: 16, memory: 128 },
-  'r5.8xlarge': { cpu: 32, memory: 256 },
-  'c5.large': { cpu: 2, memory: 4 },
-  'c5.xlarge': { cpu: 4, memory: 8 },
-  'c5.2xlarge': { cpu: 8, memory: 16 },
-  'c5.4xlarge': { cpu: 16, memory: 32 },
-  'c5.9xlarge': { cpu: 36, memory: 72 },
-  'custom': { cpu: 0, memory: 0 },
+  't3.medium': { cpu: 2, memory: 4, monthlyCost: 30.37 },
+  't3.large': { cpu: 2, memory: 8, monthlyCost: 77.09 },
+  't3.xlarge': { cpu: 4, memory: 16, monthlyCost: 154.18 },
+  't3.2xlarge': { cpu: 8, memory: 32, monthlyCost: 308.35 },
+  'm5.large': { cpu: 2, memory: 8, monthlyCost: 87.60 },
+  'm5.xlarge': { cpu: 4, memory: 16, monthlyCost: 140.27 },
+  'm5.2xlarge': { cpu: 8, memory: 32, monthlyCost: 345.60 },
+  'm5.4xlarge': { cpu: 16, memory: 64, monthlyCost: 691.20 },
+  'm5.8xlarge': { cpu: 32, memory: 128, monthlyCost: 1121.28 },
+  'm5.12xlarge': { cpu: 48, memory: 192, monthlyCost: 1681.92 },
+  'r5.large': { cpu: 2, memory: 16, monthlyCost: 90.72 },
+  'r5.xlarge': { cpu: 4, memory: 32, monthlyCost: 221.92 },
+  'r5.2xlarge': { cpu: 8, memory: 64, monthlyCost: 443.84 },
+  'r5.4xlarge': { cpu: 16, memory: 128, monthlyCost: 875.52 },
+  'r5.8xlarge': { cpu: 32, memory: 256, monthlyCost: 1775.36 },
+  'c5.large': { cpu: 2, memory: 4, monthlyCost: 172.28 },
+  'c5.xlarge': { cpu: 4, memory: 8, monthlyCost: 141.12 },
+  'c5.2xlarge': { cpu: 8, memory: 16, monthlyCost: 282.24 },
+  'c5.4xlarge': { cpu: 16, memory: 32, monthlyCost: 572.32 },
+  'c5.9xlarge': { cpu: 36, memory: 72, monthlyCost: 1116.90 },
+  'custom': { cpu: 0, memory: 0, monthlyCost: 0 },
 };
 
 function Calculator({ onRemove, podColor }) {
@@ -39,7 +39,6 @@ function Calculator({ onRemove, podColor }) {
   const [cpuOverhead, setCpuOverhead] = useState(10);
   const [memoryOverhead, setMemoryOverhead] = useState(10);
 
-  const INSTANCE_COST_PER_MONTH = 700.80; // On-demand m5.4xlarge in Singapore
   const [requiredNodes, setRequiredNodes] = useState(0);
   const [nodePlacement, setNodePlacement] = useState([]);
   const [monthlyCost, setMonthlyCost] = useState(0);
@@ -67,7 +66,7 @@ function Calculator({ onRemove, podColor }) {
       const nodesByMemory = Math.ceil(totalPodMemory / usableNodeMemory);
       const calculatedNodes = Math.max(nodesByCpu, nodesByMemory);
       setRequiredNodes(calculatedNodes);
-      setMonthlyCost(calculatedNodes * INSTANCE_COST_PER_MONTH);
+      setMonthlyCost(calculatedNodes * instanceTypes[instanceType].monthlyCost);
 
       const nodes = Array.from({ length: calculatedNodes }, () => ({
         pods: [],
