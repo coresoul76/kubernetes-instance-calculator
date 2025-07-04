@@ -102,7 +102,7 @@ function Calculator({ onRemove, podColor }) {
       setRequiredNodes(0);
       setNodePlacement([]);
     }
-  }, [peakPods, podCpu, podMemory, nodeCpu, nodeMemory, cpuOverhead, memoryOverhead]);
+  }, [peakPods, podCpu, podMemory, nodeCpu, nodeMemory, cpuOverhead, memoryOverhead, instanceType]);
 
 
   return (
