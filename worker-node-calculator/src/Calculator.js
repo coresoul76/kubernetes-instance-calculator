@@ -39,8 +39,10 @@ function Calculator({ onRemove, podColor }) {
   const [cpuOverhead, setCpuOverhead] = useState(10);
   const [memoryOverhead, setMemoryOverhead] = useState(10);
 
+  const INSTANCE_COST_PER_MONTH = 700.80; // On-demand m5.4xlarge in Singapore
   const [requiredNodes, setRequiredNodes] = useState(0);
   const [nodePlacement, setNodePlacement] = useState([]);
+  const [monthlyCost, setMonthlyCost] = useState(0);
 
   useEffect(() => {
     if (instanceType === 'custom') {
@@ -65,6 +67,7 @@ function Calculator({ onRemove, podColor }) {
       const nodesByMemory = Math.ceil(totalPodMemory / usableNodeMemory);
       const calculatedNodes = Math.max(nodesByCpu, nodesByMemory);
       setRequiredNodes(calculatedNodes);
+      setMonthlyCost(calculatedNodes * INSTANCE_COST_PER_MONTH);
 
       const nodes = Array.from({ length: calculatedNodes }, () => ({
         pods: [],
@@ -175,6 +178,7 @@ function Calculator({ onRemove, podColor }) {
                 </div>
                 <div className="card-body">
                 <h2>Required Worker Nodes: {requiredNodes}</h2>
+                <h2>Estimated Monthly Cost: ${monthlyCost.toFixed(2)}</h2>
                 </div>
             </div>
 
