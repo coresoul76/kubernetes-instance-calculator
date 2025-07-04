@@ -15,7 +15,8 @@ root.render(
 // Initialize tooltips
 document.addEventListener('DOMContentLoaded', function () {
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) { // eslint-disable-next-line no-unused-vars // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-unused-vars
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new Tooltip(tooltipTriggerEl)
   })
 });
