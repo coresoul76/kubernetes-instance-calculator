@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.editable-title:hover {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 2px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}

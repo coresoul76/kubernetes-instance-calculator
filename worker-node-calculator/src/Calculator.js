@@ -42,6 +42,7 @@ function Calculator({ onRemove, podColor }) {
   const [requiredNodes, setRequiredNodes] = useState(0);
   const [nodePlacement, setNodePlacement] = useState([]);
   const [monthlyCost, setMonthlyCost] = useState(0);
+  const [hourlyCost, setHourlyCost] = useState(0);
 
   useEffect(() => {
     if (instanceType === 'custom') {
@@ -67,6 +68,7 @@ function Calculator({ onRemove, podColor }) {
       const calculatedNodes = Math.max(nodesByCpu, nodesByMemory);
       setRequiredNodes(calculatedNodes);
       setMonthlyCost(calculatedNodes * instanceTypes[instanceType].monthlyCost);
+      setHourlyCost(calculatedNodes * (instanceTypes[instanceType].monthlyCost / 730));
 
       const nodes = Array.from({ length: calculatedNodes }, () => ({
         pods: [],
@@ -117,7 +119,7 @@ function Calculator({ onRemove, podColor }) {
                     autoFocus
                 />
             ) : (
-                <h5 onClick={() => setIsEditingTitle(true)} style={{ cursor: 'pointer' }}>{title}</h5>
+                <h5 className="editable-title" onClick={() => setIsEditingTitle(true)} style={{ cursor: 'pointer' }}>{title}</h5>
             )}
             <button className="btn btn-danger btn-sm" onClick={onRemove}>Remove</button>
         </div>
@@ -126,15 +128,15 @@ function Calculator({ onRemove, podColor }) {
                 <div className="col-md-6">
                     <h6 className="mb-3">Application / Pod Inputs</h6>
                     <div className="mb-3">
-                        <label className="form-label">Peak Pod Count</label>
+                        <label className="form-label" data-bs-toggle="tooltip" title="The maximum number of pods expected to run concurrently for this application.">Peak Pod Count</label>
                         <input type="number" className="form-control form-control-sm" value={peakPods} onChange={(e) => setPeakPods(parseInt(e.target.value, 10) || 0)} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Pod CPU Limit (m)</label>
+                        <label className="form-label" data-bs-toggle="tooltip" title="The CPU limit for each pod in millicores (e.g., 500m for 0.5 vCPU).">Pod CPU Limit (m)</label>
                         <input type="number" className="form-control form-control-sm" value={podCpu} onChange={(e) => setPodCpu(parseInt(e.target.value, 10) || 0)} />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Pod Memory Limit (GiB)</label>
+                        <label class="form-label" data-bs-toggle="tooltip" title="The memory limit for each pod in GiB (Gibibytes).">Pod Memory Limit (GiB)</label>
                         <input type="number" className="form-control form-control-sm" value={podMemory} onChange={(e) => setPodMemory(parseFloat(e.target.value) || 0)} />
                     </div>
                 </div>
@@ -161,11 +163,11 @@ function Calculator({ onRemove, podColor }) {
                         </>
                     )}
                     <div className="mb-3">
-                        <label className="form-label">CPU Overhead (%)</label>
+                        <label className="form-label" data-bs-toggle="tooltip" title="Percentage of CPU reserved for operating system and Kubernetes processes.">CPU Overhead (%)</label>
                         <input type="number" className="form-control form-control-sm" value={cpuOverhead} onChange={(e) => setCpuOverhead(parseInt(e.target.value, 10) || 0)} />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">Memory Overhead (%)</label>
+                        <label className="form-label" data-bs-toggle="tooltip" title="Percentage of Memory reserved for operating system and Kubernetes processes.">Memory Overhead (%)</label>
                         <input type="number" className="form-control form-control-sm" value={memoryOverhead} onChange={(e) => setMemoryOverhead(parseInt(e.target.value, 10) || 0)} />
                     </div>
                 </div>
@@ -178,6 +180,7 @@ function Calculator({ onRemove, podColor }) {
                 <div className="card-body">
                 <h2>Required Worker Nodes: {requiredNodes}</h2>
                 <h2>Estimated Monthly Cost: ${monthlyCost.toFixed(2)}</h2>
+                <p>Estimated Hourly Cost: ${hourlyCost.toFixed(2)}</p>
                 </div>
             </div>
 
